@@ -36,8 +36,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String t1 = 'Notes from UI event';
-  String d1 = 'Lorem ipsum...';
+
+
 
   List<Notes> noteList = [
     Notes(title: 'New Music', description: 'Cant get enough of you'),
