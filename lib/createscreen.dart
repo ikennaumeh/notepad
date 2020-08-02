@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'notes_entity.dart';
+import 'notes_db.dart';
 
 
 class CreateScreen extends StatefulWidget {
@@ -38,10 +40,17 @@ class _CreateScreenState extends State<CreateScreen> {
             padding: const EdgeInsets.all(8.0),
             child: RaisedButton(
               color: Colors.blue.shade900,
-              child: Text('Add',style: TextStyle(fontSize: 17.0, color: Colors.white),),
-              onPressed: (){
+              child: Text('Save',style: TextStyle(fontSize: 17.0, color: Colors.white),),
+              onPressed: ()async{
                widget.addListCallback(newNoteTitle,newNoteDescription);
                Navigator.pop(context);
+               final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+               final notesDao = database.notesDao;
+
+               final note = Notes();
+               await notesDao.insertNotes(note);
+
+             // final result = await notesDao.findNotesById(1);
               },
             ),
           ),

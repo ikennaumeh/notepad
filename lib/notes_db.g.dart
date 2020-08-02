@@ -80,7 +80,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Notes` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT, `note` TEXT, `currentDate` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `notes` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `custom_name` TEXT NOT NULL, `description` TEXT, `date` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -99,12 +99,34 @@ class _$NotesDao extends NotesDao {
       : _queryAdapter = QueryAdapter(database, changeListener),
         _notesInsertionAdapter = InsertionAdapter(
             database,
-            'Notes',
+            'notes',
             (Notes item) => <String, dynamic>{
                   'id': item.id,
-                  'title': item.title,
-                  'note': item.note,
-                  'currentDate': item.currentDate
+                  'custom_name': item.title,
+                  'description': item.description,
+                  'date': item.date
+                },
+            changeListener),
+        _notesUpdateAdapter = UpdateAdapter(
+            database,
+            'notes',
+            ['id'],
+            (Notes item) => <String, dynamic>{
+                  'id': item.id,
+                  'custom_name': item.title,
+                  'description': item.description,
+                  'date': item.date
+                },
+            changeListener),
+        _notesDeletionAdapter = DeletionAdapter(
+            database,
+            'notes',
+            ['id'],
+            (Notes item) => <String, dynamic>{
+                  'id': item.id,
+                  'custom_name': item.title,
+                  'description': item.description,
+                  'date': item.date
                 },
             changeListener);
 
@@ -115,11 +137,16 @@ class _$NotesDao extends NotesDao {
   final QueryAdapter _queryAdapter;
 
   static final _notesMapper = (Map<String, dynamic> row) => Notes(
-      title: row['title'] as String,
-      note: row['note'] as String,
-      currentDate: row['currentDate'] as String);
+      id: row['id'] as int,
+      title: row['custom_name'] as String,
+      description: row['description'] as String,
+      date: row['date'] as String);
 
   final InsertionAdapter<Notes> _notesInsertionAdapter;
+
+  final UpdateAdapter<Notes> _notesUpdateAdapter;
+
+  final DeletionAdapter<Notes> _notesDeletionAdapter;
 
   @override
   Future<List<Notes>> findAllNotes() async {
@@ -130,7 +157,7 @@ class _$NotesDao extends NotesDao {
   Stream<Notes> findNotesById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM Notes WHERE id = ?',
         arguments: <dynamic>[id],
-        queryableName: 'Notes',
+        queryableName: 'notes',
         isView: false,
         mapper: _notesMapper);
   }
@@ -138,5 +165,16 @@ class _$NotesDao extends NotesDao {
   @override
   Future<void> insertNotes(Notes notes) async {
     await _notesInsertionAdapter.insert(notes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<int> updateNotes(Notes notes) {
+    return _notesUpdateAdapter.updateAndReturnChangedRows(
+        notes, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<int> deleteNotes(Notes notes) {
+    return _notesDeletionAdapter.deleteAndReturnChangedRows(notes);
   }
 }

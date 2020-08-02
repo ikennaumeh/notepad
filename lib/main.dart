@@ -40,10 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   List<Notes> noteList = [
-    Notes(title: 'New Music', description: 'Cant get enough of you'),
-    Notes(title: 'Poster Boy', description: 'Ferrari poster boy'),
-    Notes(title: 'Kinging with Kobe', description: 'King kobe came to town to...'),
-    Notes(title: 'Aces', description: 'Bust thru of Ikenna U...'),
+//    Notes(title: 'New Music', description: 'Cant get enough of you'),
+//    Notes(title: 'Poster Boy', description: 'Ferrari poster boy'),
+//    Notes(title: 'Kinging with Kobe', description: 'King kobe came to town to...'),
+//    Notes(title: 'Aces', description: 'Bust thru of Ikenna U...'),
   ];
 
 
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: buildList(context),
+      body: noteList != null ? buildList(context) : Center(child: Text('Write Notes',style: TextStyle(fontSize: 40.0),),),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF111D49),
         onPressed: (){
