@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   List<Notes> noteList = [
-//    Notes(title: 'New Music', description: 'Cant get enough of you'),
+ // Notes(title: 'New Note', description: 'Add new notes'),
 //    Notes(title: 'Poster Boy', description: 'Ferrari poster boy'),
 //    Notes(title: 'Kinging with Kobe', description: 'King kobe came to town to...'),
 //    Notes(title: 'Aces', description: 'Bust thru of Ikenna U...'),
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: noteList != null ? buildList(context) : Center(child: Text('Write Notes',style: TextStyle(fontSize: 40.0),),),
+      body:  buildList(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF111D49),
         onPressed: (){
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(height: 20.0,),
           Container(
             color: Colors.white,
-            height: MediaQuery.of(context).size.height-116,
+            height: MediaQuery.of(context).size.height-117,
             width: double.infinity,
             child: ListView.builder(
               itemCount: noteList.length,
@@ -92,16 +92,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   subtitle: Text(noteList[index].description),
                   trailing:Container(
                     width: 50.0,
-                    child: Row(
+                    child: Column(
                       children: <Widget>[
-                        Icon(
-                          Icons.star_border,
-                        ),
-                        Icon(
-                          Icons.more_vert,
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.star_border,
+                            ),
+                            Icon(
+                              Icons.more_vert,
 
-                          color: Color(0xFF111D49),
+                              color: Color(0xFF111D49),
+                            ),
+                          ],
                         ),
+
                       ],
                     ),
                   ),
@@ -114,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
             ),
           ),
+          Divider(height: 1.0),
         ],
       ),
     );

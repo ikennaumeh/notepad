@@ -14,12 +14,16 @@ class _ViewNotesScreenState extends State<ViewNotesScreen> {
     final ScreenArguments args = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Color(0xFF111D49),),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
+        leading: Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(216, 221, 240, 1),
+                borderRadius: BorderRadius.circular(8)),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xFF111D49),
+            )),
         title: Center(child: Text('View Notes', style: TextStyle(color: Color(0xFF111D49)),),),
         elevation: 0,
         backgroundColor: Colors.white,
